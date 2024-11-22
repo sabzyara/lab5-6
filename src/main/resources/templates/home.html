@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Home</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+
+    .header {
+      background-color: #f0f0f0;
+      padding: 10px 20px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 30px;
+      padding: 10px 0;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      text-align: center;
+    }
+
+    button {
+      padding: 5px 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      height: 50px;
+      width: 300px;
+      color: #f0f0f0;
+      background-color: #4CAF50;
+      font-family: Arial, sans-serif;
+    }
+
+    .tasks-section {
+      margin-top: 20px;
+    }
+
+    .tasks-table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    th, td {
+      padding: 5px;
+      border: 1px solid #ccc;
+    }
+
+    th {
+      background-color: #ddd;
+    }
+  </style>
+</head>
+<body class="main-body">
+<header class="header">
+  <h1>Main</h1>
+  <nav class="navigation">
+    <button th:onclick="|location.href='@{/posgr/user/users}'|">Users</button>
+    <button th:onclick="|location.href='@{/posgr/task/tasks}'|">My Tasks</button>
+    <button th:onclick="|location.href='@{/posgr/category/categories}'|">Category</button>
+    <button th:onclick="|location.href='@{/logout}'|" style="
+      background-color: #f44336;
+      color: white;
+      width: 120px;
+      height: 40px;
+      font-size: 14px;
+      border-radius: 6px;
+    ">
+      Logout
+    </button>
+  </nav>
+</header>
+
+
+<section class="tasks-section">
+  <h2>All Tasks</h2>
+  <table class="tasks-table">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Status</th>
+      <th>Priority</th>
+      <th>Due Date</th>
+      <th>User</th>
+      <th>Category</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="task : ${task}">
+      <td th:text="${task.taskId}"></td>
+      <td th:text="${task.title}"></td>
+      <td th:text="${task.description}"></td>
+      <td th:text="${task.status}"></td>
+      <td th:text="${task.priority}"></td>
+      <td th:text="${task.dueDate}"></td>
+      <td th:text="${task.user.username}"></td>
+      <td th:text="${task.category.name}"></td>
+    </tr>
+    </tbody>
+  </table>
+</section>
+</body>
+</html>
