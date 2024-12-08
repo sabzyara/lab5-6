@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
   <title>Home</title>
   <style>
@@ -65,6 +65,7 @@
     <button th:onclick="|location.href='@{/posgr/user/users}'|">Users</button>
     <button th:onclick="|location.href='@{/posgr/task/tasks}'|">My Tasks</button>
     <button th:onclick="|location.href='@{/posgr/category/categories}'|">Category</button>
+    <button th:onclick="|location.href='@{/posgr/profile}'|">Profile</button>
     <button th:onclick="|location.href='@{/logout}'|" style="
       background-color: #f44336;
       color: white;
@@ -80,12 +81,34 @@
 
 
 <section class="tasks-section">
-  <h2>All Tasks</h2>
+  <header>
+    <h1>All Tasks</h1>
+  </header>
+
+  <form th:action="@{/posgr/home}" method="get">
+    <input type="text" name="search" th:value="${search}" placeholder="Search tasks..." style="padding: 8px; width: 300px;">
+    <select name="status" style="padding: 8px; width: 150px;">
+      <option value="" th:selected="${status == null}">All Statuses</option>
+      <option value="in process" th:selected="${status == 'in process'}">In Process</option>
+      <option value="done" th:selected="${status == 'done'}">Done</option>
+    </select>
+
+    <select name="category" style="padding: 8px; width: 150px;">
+      <option value="" th:selected="${category == null}">All Categories</option>
+      <option th:each="category : ${categories}" th:value="${category.name}" th:text="${category.name}"
+              th:selected="${category == selectedCategory}"></option>
+    </select>
+
+    <button type="submit" style="background-color: #4CAF50; color: white; width: 100px; height: 30px; font-size: 12px; border-radius: 6px;">
+      Search
+    </button>
+  </form>
+
   <table class="tasks-table">
     <thead>
     <tr>
       <th>ID</th>
-      <th>Name</th>
+      <th>Title</th>
       <th>Description</th>
       <th>Status</th>
       <th>Priority</th>
@@ -95,7 +118,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="task : ${task}">
+    <tr th:each="task : ${tasks}">
       <td th:text="${task.taskId}"></td>
       <td th:text="${task.title}"></td>
       <td th:text="${task.description}"></td>
@@ -107,6 +130,25 @@
     </tr>
     </tbody>
   </table>
+
+  <div style="margin-top: 20px;">
+    <a th:href="@{|/posgr/home?page=${currentPage - 1}&size=10&search=${search}&status=${status}&category=${category}|}"
+       th:if="${currentPage > 0}">
+      <button style="background-color: #4CAF50; color: white; width: 100px; height: 30px; font-size: 12px; border-radius: 6px;">
+        Previous
+      </button>
+    </a>
+  </div>
+
+  <span>Page <span th:text="${currentPage + 1}"></span> of <span th:text="${totalPages}"></span></span>
+
+  <a th:href="@{|/posgr/home?page=${currentPage + 1}&size=10&search=${search}&status=${status}&category=${category}|}"
+     th:if="${currentPage + 1 < totalPages}">
+    <button style="background-color: #4CAF50; color: white; width: 100px; height: 30px; font-size: 12px; border-radius: 6px;">
+      Next
+    </button>
+  </a>
 </section>
+
 </body>
 </html>

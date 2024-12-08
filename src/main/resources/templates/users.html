@@ -125,6 +125,11 @@
                     th:data-password="${user.password}">
                 Edit
             </button>
+            <button class="button"
+                    th:data-userid="${user.userId}"
+                    onclick="redirectToEmailPage(this)">
+                Send Email
+            </button>
             <button class="button delete" th:onclick="'confirmDelete(' + ${user.userId} + ')'" >Delete</button>
         </td>
     </tr>
@@ -148,6 +153,14 @@
     </div>
 </div>
 
+<div id="taskModal" class="modal">
+    <div class="modal-content">
+        <span class="modal-close" onclick="closeTaskModal()">&times;</span>
+        <h3>Select Task to Notify</h3>
+        <p id="taskModalMessage"></p>
+        <ul id="taskList"></ul>
+    </div>
+</div>
 <script>
 
     function openEditModal(button) {
@@ -188,6 +201,12 @@
                 });
         }
     }
+
+    function redirectToEmailPage(button) {
+        const userid = button.getAttribute('data-userid');
+        window.location.href = '/email?id=' + encodeURIComponent(userid);
+    }
+
 
 </script>
 </body>

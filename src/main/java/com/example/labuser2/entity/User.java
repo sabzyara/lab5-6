@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 
@@ -41,5 +42,17 @@ public class User {
     protected void onCreate() {
         this.createdAt = new Date();
     }
-    public User(String username, String password) {}
+    @Column(name = "role", nullable = false)
+    private String role = "ROLE_USER";
+
+
+    @Column(name = "profile_image")
+    private String profileImage;
+
+    @Column(name = "reset_token")
+    private String resetToken;
+
+    @Column(name = "token_expiration")
+    private Instant tokenExpiration;
+
 }

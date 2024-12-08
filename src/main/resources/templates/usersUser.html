@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Users</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    h2 {
+      margin: 0;
+      font-size: 30px;
+      padding: 10px 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+
+    table th, table td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th, td {
+      padding: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      background-color: #4CAF50;
+      border: none;
+      color: white;
+      padding: 8px 16px;
+      font-size: 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s;
+      margin-right: 5px;
+    }
+
+    button.delete {
+      background-color: #f44336;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    th {
+      background-color: #ddd;
+    }
+
+    .actions form {
+      display: inline-block;
+    }
+  </style>
+</head>
+<body>
+<h2>All Users</h2>
+<button th:onclick="|location.href='@{/posgr/home}'|">Home</button>
+<table>
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Username</th>
+    <th>Email</th>
+    <th>Password</th>
+    <th>Created At</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="user : ${users}">
+    <td th:text="${user.userId}"></td>
+    <td th:text="${user.username}"></td>
+    <td th:text="${user.email}"></td>
+    <td>********</td>
+    <td th:text="${user.createdAt}"></td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>

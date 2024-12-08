@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 public class CategoryController {
     private CategoryService categoryService;
 
+
     @PostMapping("/addCat")
     public String addCategory(@ModelAttribute Category category) {
         Category savedCategory = categoryService.addCategory(category);
@@ -38,6 +39,13 @@ public class CategoryController {
         return "categories";
     }
 
+    @GetMapping("/categoriesUser")
+    public String getCategoriesUser(Model model) {
+        model.addAttribute("categories", categoryService.getAllCategories());
+        return "categoriesUser";
+    }
+
+
 
     @PostMapping("{id}")
     public String updateCategory(@PathVariable("id") long category_id, @ModelAttribute Category updatedcategory) {
@@ -48,6 +56,7 @@ public class CategoryController {
             return "error";
         }
     }
+
 
     @DeleteMapping("{id}")
     public ResponseEntity<String> deleteCategory(@PathVariable("id") Long category_id) {

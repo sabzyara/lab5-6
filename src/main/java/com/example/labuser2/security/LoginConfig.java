@@ -1,5 +1,6 @@
 package com.example.labuser2.security;
 
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -11,7 +12,6 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 public class LoginConfig {
-
 
 
     @Bean
@@ -26,27 +26,20 @@ public class LoginConfig {
 
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         http
                 .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/posgr/user/login", "/posgr/user/addUser", "/css/**").permitAll()
+                .authorizeHttpRequests(auth -> auth.requestMatchers("/posgr/user/login" , "/posgr/user/addUser" , "/posgr/forgot", "/posgr/reset" , "/posgr/resetPassword" , "/css/**").permitAll()
                         .anyRequest().authenticated()
                 )
-                .formLogin(form -> form
-                        .loginPage("/posgr/user/login")
-                        .defaultSuccessUrl("/posgr/home", true)
-                        .failureUrl("/posgr/user/login?error=true")
-                        .permitAll()
-                )
-                .logout(logout -> logout
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/posgr/login?logout = true")
+                .formLogin(form -> form.loginPage("/posgr/user/login")
+                        .defaultSuccessUrl("/posgr/home" , true)
+                        .failureUrl("/posgr/user/login?error = true").permitAll()
+                        )
+                .logout(logout -> logout.logoutUrl("/logout")
+                        .logoutSuccessUrl("/posgr/login?logout=true")
                 );
-
         return http.build();
     }
+
 }
-
-
-

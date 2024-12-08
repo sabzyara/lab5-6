@@ -1,7 +1,6 @@
 package com.example.labuser2.controller;
 
 
-
 import com.example.labuser2.entity.User;
 import com.example.labuser2.service.UserService;
 import lombok.AllArgsConstructor;
@@ -12,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 
 import static org.hibernate.sql.ast.SqlTreeCreationLogger.LOGGER;
 
@@ -29,6 +29,7 @@ public class UserController {
     public String login() {
             return "login";
         }
+
     @PostMapping("/login")
     public String login(@RequestParam String username, @RequestParam String password, Model model) {
         LOGGER.info("Attempting login for username: " + username);
@@ -40,7 +41,13 @@ public class UserController {
 
             if (passwordEncoder.matches(password.trim(), user.getPassword())) {
                 LOGGER.info("Password matched for user: " + username);
-                return "redirect:/posgr/home";
+
+                if (user.getRole().equals("ROLE_ADMIN")) {
+                    return "home";
+                } else {
+                    return "homeUser";
+                }
+
             } else {
                 LOGGER.warn("Invalid password for user: " + username);
             }
@@ -51,7 +58,6 @@ public class UserController {
         model.addAttribute("loginError", "Invalid username or password!");
         return "login";
     }
-    
 
 
     @GetMapping("/addUser")
@@ -75,7 +81,6 @@ public class UserController {
         return "users";
     }
 
-
     @PostMapping("/{id}")
     public String updateUser(@PathVariable("id") long userId, @ModelAttribute User updatedUser) {
         if (updatedUser.getPassword() != null && !updatedUser.getPassword().isEmpty()) {
@@ -88,7 +93,6 @@ public class UserController {
             return "error";
         }
     }
-
 
 
     @DeleteMapping("/{id}")
